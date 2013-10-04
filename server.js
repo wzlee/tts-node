@@ -20,7 +20,7 @@ app.configure('production', function(){
 
 
 app.configure(function(){
-    app.set('port', process.env.PORT || 3000);
+    app.set('port', process.env.PORT || 8080);
     app.set('views', __dirname + '/views');
     app.set('view engine', 'html');
     app.engine('html', require('hbs').__express);
