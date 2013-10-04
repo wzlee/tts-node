@@ -1,0 +1,43 @@
+<script>
+    $(document).ready(function($){
+
+        $("#playButton").click(function(){
+            var msg = $('#msg').val();
+            if (msg) {
+                var jqxhr = $.post( "/audioTest", {msg:msg}, function(data, textStatus, jqXHR) {
+                    console.log(data)
+                    console.log(textStatus)
+                    console.log(jqXHR)
+                    console.log( "success kook" );
+
+                    if (data.audioSource)  {
+                        var audio = $('<audio></audio>')
+                        audio.attr('src', data.audioSource);
+                        audio[0].play();
+                    }
+
+
+                }).always(function(data, textStatus, jqXHR) {
+                            console.log(data)
+                            console.log(textStatus)
+                            console.log(jqXHR)
+                            console.log( "finished" );
+                        });
+            }
+
+        })
+    })
+</script>
+
+
+
+<div id="container">
+    <form>
+        <textarea rows="4" cols="50" id="msg" class='inputFields' placeholder="Enter a Robot Message" name="msg"></textarea></br>
+        <input id="playButton" class='inputFields' type="button" value="Play">
+    </form>
+    <div id="messages"></div>
+
+    <div id="audioResponse">
+    </div>
+</div>
