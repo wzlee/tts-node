@@ -42,6 +42,7 @@ app.get("/", function (req, res) {
 app.post("/audioTest",  function (req, res) {
     var name = "ryan";
     if (name && req.body.msg) {
+        console.log(req.body)
         var exec        = require('child_process').exec,
             txtName     = 'tmpAudio.txt',
             message     = req.body.msg,
@@ -50,9 +51,10 @@ app.post("/audioTest",  function (req, res) {
             mp3Output   = audioPath + 'ttsSample.mp3',
             fileName    = path.join(audioPath,txtName),
             mp3Response = path.join('audio',name, 'ttsSample.mp3'),
+            voice        = req.body.voice || 'kal_diphone',
             child;
         console.log("Audio Path is: " + audioPath);
-
+        console.log("voice is:" + voice)
         FS.exists(audioPath).then(function(exists){
             var promise;
             if (!exists) {
@@ -64,7 +66,7 @@ app.post("/audioTest",  function (req, res) {
             //error handling with promise??? maybe simple def check
             promise.then(function(){
                 console.log("file created...creating audio output");
-                child = exec('cat ' + fileName + ' | text2wave -o ' + wavOutput,
+                child = exec('cat ' + fileName + ' | text2wave -eval "(voice_' + voice + ')" -o ' + wavOutput,
                     function (err, stdout, stderr) {
                         if (err) throw err;
                         console.log('audio output created....compressions');
